@@ -21,12 +21,20 @@ function App() {
       mouse.startX = mouse.x;
       mouse.startY = mouse.y;
       element = document.createElement('div');
-      element.className = 'rectangle'
+      element.className = 'rectangle';
       element.style.left = mouse.x + 'px';
       element.style.top = mouse.y + 'px';
-      canvas.appendChild(element)
+      drawCoords(element);
+      canvas.appendChild(element);
       canvas.style.cursor = "crosshair";
     }
+  }
+
+  function drawCoords(rectElement){
+    let coordsEl = document.createElement('span');
+    coordsEl.className = 'coords';
+    coordsEl.innerText = `(${mouse.startX},${mouse.startY},${mouse.x},${mouse.y})`
+    rectElement.appendChild(coordsEl);
   }
 
   function onMouseMove(e) {
@@ -36,6 +44,11 @@ function App() {
       element.style.height = Math.abs(mouse.y - mouse.startY) + 'px';
       element.style.left = (mouse.x - mouse.startX < 0) ? mouse.x + 'px' : mouse.startX + 'px';
       element.style.top = (mouse.y - mouse.startY < 0) ? mouse.y + 'px' : mouse.startY + 'px';
+      const x1 = mouse.x - mouse.startX < 0 ? mouse.x : mouse.startX;
+      const y1 = mouse.y - mouse.startY < 0 ? mouse.y : mouse.startY;
+      const x2 = mouse.x - mouse.startX >= 0 ? mouse.x : mouse.startX;
+      const y2 = mouse.y - mouse.startY >= 0 ? mouse.y : mouse.startY;
+      element.getElementsByClassName('coords')[0].innerText = `(${x1},${y1},${x2},${y2})`;
     }
   }
 
